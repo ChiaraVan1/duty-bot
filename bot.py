@@ -1,15 +1,27 @@
 import requests
 import datetime
 import os
+import sys
 
-# 从 GitHub Secrets 读取 Webhook
-WEBHOOK = os.environ["DINGTALK_WEBHOOK"]
+# 读取环境变量
+WEBHOOK = os.environ.get("DINGTALK_WEBHOOK")
+DUTY1_PHONE = os.environ.get("DUTY1_PHONE")
+DUTY2_PHONE = os.environ.get("DUTY2_PHONE")
+DUTY3_PHONE = os.environ.get("DUTY3_PHONE")
 
-# 值班人员列表（自定义展示名 + 手机号）
+# 检查必要环境变量是否存在
+if not WEBHOOK:
+    print("错误：未配置 DINGTALK_WEBHOOK")
+    sys.exit(1)
+if not all([DUTY1_PHONE, DUTY2_PHONE, DUTY3_PHONE]):
+    print("错误：未配置全部 DUTY_PHONE 环境变量")
+    sys.exit(1)
+
+# 值班人员列表（自定义名字 + 手机号来自 Secrets）
 duty_list = [
-    {"name": "文佳老师", "at": os.environ["DUTY1_PHONE"]},
-    {"name": "雨芃老师", "at": os.environ["DUTY2_PHONE"]},
-    {"name": "楷祥老师", "at": os.environ["DUTY3_PHONE"]},
+    {"name": "文佳", "at": DUTY1_PHONE},
+    {"name": "雨芃", "at": DUTY2_PHONE},
+    {"name": "楷祥", "at": DUTY3_PHONE},
 ]
 
 today = datetime.date.today()
@@ -17,14 +29,14 @@ today = datetime.date.today()
 # 周末不发送
 if today.weekday() >= 5:
     print("周末，不发送值班提醒。")
-    exit(0)
+    sys.exit(0)
 
-# 计算从某个起点以来的工作日数（避免周末占用顺序）
-start_date = datetime.date(2025, 9, 19)  # 你可以改成实际开始日期
+# 计算从某个起点以来的工作日数（周末不占用顺序）
+start_date = datetime.date(2025, 1, 1)
 workdays = 0
 day = start_date
 while day <= today:
-    if day.weekday() < 5:  # 只算工作日
+    if day.weekday() < 5:
         workdays += 1
     day += datetime.timedelta(days=1)
 
@@ -32,17 +44,18 @@ while day <= today:
 index = (workdays - 1) % len(duty_list)
 person = duty_list[index]
 
-# 消息正文里写“自定义名字”，@ 部分由手机号触发钉钉真实名字
+# 构造消息
 msg_text = f"值班提醒：今天由 {person['name']} 值班！"
 
 data = {
     "msgtype": "text",
     "text": {"content": msg_text},
     "at": {
-        "atMobiles": [person["at"]],  # 这里会在群里高亮真实钉钉名
+        "atMobiles": [person["at"]],
         "isAtAll": False
     },
 }
 
+# 发送消息
 res = requests.post(WEBHOOK, json=data)
 print(res.text)
