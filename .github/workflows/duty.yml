@@ -1,26 +1,31 @@
-name: Duty Bot
+name: DutyBot
 
 on:
   schedule:
-    - cron: "30 1 * * *"   # UTC 2:30 = 北京时间 10:30
-  workflow_dispatch:        # 支持手动触发
+    # 每天北京时间 9:30
+    # UTC = 北京时间 -8小时 → UTC 1:30
+    - cron: "30 1 * * *"
+  workflow_dispatch:  # 可手动触发
 
 jobs:
-  send:
+  send-duty:
     runs-on: ubuntu-latest
+    env:
+      DUTY1_PHONE: ${{ secrets.DUTY1_PHONE }}
+      DUTY2_PHONE: ${{ secrets.DUTY2_PHONE }}
+      DUTY3_PHONE: ${{ secrets.DUTY3_PHONE }}
+      DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v3
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.10"
+          python-version: 3.10
 
       - name: Install dependencies
         run: pip install requests
 
-      - name: Run bot
-        env:
-          DINGTALK_WEBHOOK: ${{ secrets.DINGTALK_WEBHOOK }}
+      - name: Run Duty Bot
         run: python bot.py
