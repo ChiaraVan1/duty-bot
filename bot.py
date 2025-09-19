@@ -20,7 +20,7 @@ if today.weekday() >= 5:
     exit(0)
 
 # 计算从某个起点以来的工作日数（避免周末占用顺序）
-start_date = datetime.date(2025, 1, 1)  # 你可以改成实际开始日期
+start_date = datetime.date(2025, 9, 19)  # 你可以改成实际开始日期
 workdays = 0
 day = start_date
 while day <= today:
