@@ -45,7 +45,7 @@ index = (workdays - 1) % len(duty_list)
 person = duty_list[index]
 
 # 构造消息
-msg_text = f"值班提醒：今天由 {person['name']} 值班！"
+msg_text = f"值班提醒：今天由 {person['name']} 老师值班！"
 
 data = {
     "msgtype": "text",
