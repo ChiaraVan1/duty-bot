@@ -7,9 +7,9 @@ WEBHOOK = os.environ["DINGTALK_WEBHOOK"]
 
 # 值班人员列表（自定义展示名 + 手机号）
 duty_list = [
-    {"name": "文佳老师", "at": "13642054556"},
-    {"name": "雨芃老师", "at": "13811112222"},
-    {"name": "楷祥老师", "at": "13822223333"},
+    {"name": "文佳老师", "at": os.environ["DUTY1_PHONE"]},
+    {"name": "雨芃老师", "at": os.environ["DUTY2_PHONE"]},
+    {"name": "楷祥老师", "at": os.environ["DUTY3_PHONE"]},
 ]
 
 today = datetime.date.today()
