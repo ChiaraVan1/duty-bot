@@ -45,7 +45,7 @@ index = (workdays - 1) % len(duty_list)
 person = duty_list[index]
 
 # 构造消息
-msg_text = f"值班提醒：今天由 {person['name']} 老师值班！"
+msg_text = f"值班提醒：今天由 {person['name']} 老师值班！https://alidocs.dingtalk.com/i/nodes/QG53mjyd80RjzmmdfQdwzwmwV6zbX04v?corpId=ding5b97e5f7d1c55821ee0f45d8e4f7c288&utm_medium=im_card&iframeQuery=viewId%3Dlw0u8qogyn1y35l3ebvo2%26utm_medium%3Dim_card%26sheetId%3Dqvrb8hhpw4v8n5wvuwito%26entrance%3Ddata%26utm_source%3Dim&utm_scene=person_space&utm_source=im"
 
 data = {
     "msgtype": "text",
