@@ -63,7 +63,7 @@ data_link = {
     "msgtype": "link",
     "link": {
         "title": f"值班提醒：今天由 {person['name']} 老师值班！",  # 卡片标题
-        "text": "【新需求】点击查看 AI 表格数据需求。",  # 卡片摘要
+        "text": "【新需求】点击打开表格数据。",  # 卡片摘要
         "messageUrl": full_url  # 点击卡片后的跳转链接
     },
 }
