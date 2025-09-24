@@ -75,7 +75,7 @@ print(f"Link 消息发送结果: {res_link.text}")
 
 
 # 消息 2: Text 消息体，内容简洁，只为触发 @人 提醒
-at_text = f"请查看上方链接中的今日值班新需求！今日值班老师"
+at_text = f"早上好，今日观远值班老师"
 
 data_at = {
     "msgtype": "text",
