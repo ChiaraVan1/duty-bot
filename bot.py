@@ -56,6 +56,7 @@ person = duty_list[index]
 #    },
 #}
 
+# 消息1 
 full_url = "https://alidocs.dingtalk.com/i/nodes/QG53mjyd80RjzmmdfQdwzwmwV6zbX04v?corpId=ding5b97e5f7d1c55821ee0f45d8e4f7c288&utm_medium=im_card&iframeQuery=viewId%3Dlw0u8qogyn1y35l3ebvo2%26utm_medium%3Dim_card%26sheetId%3Dqvrb8hhpw4v8n5wvuwito%26entrance%3Ddata%26utm_source%3Dim&utm_scene=person_space&utm_source=im"
 
 data = {
@@ -65,13 +66,26 @@ data = {
         "text": "【新需求】点击查看 AI 表格数据需求。",  # 卡片摘要
         "messageUrl": full_url  # 点击卡片后的跳转链接
     },
+}
+
+
+# 发送消息 1 (Link Card)
+res_link = requests.post(WEBHOOK, json=data_link)
+print(f"Link 消息发送结果: {res_link.text}")
+
+
+# 消息 2: Text 消息体，内容简洁，只为触发 @人 提醒
+at_text = f"@{person['name']} 请查看上方链接中的今日值班新需求！"
+
+data_at = {
+    "msgtype": "text",
+    "text": {"content": at_text},
     "at": {
         "atMobiles": [person["at"]],
         "isAtAll": False
     },
 }
 
-
-# 发送消息
-res = requests.post(WEBHOOK, json=data)
-print(res.text)
+# 发送消息 2 (Text Message with @)
+res_at = requests.post(WEBHOOK, json=data_at)
+print(f"Text 消息发送结果: {res_at.text}")
