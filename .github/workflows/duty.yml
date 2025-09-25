@@ -4,7 +4,7 @@ on:
   schedule:
     # 每天北京时间 9:30
     # UTC = 北京时间 -8小时 → UTC 1:30
-    - cron: "30 2 * * *"
+    - cron: "0 1 * * *"
   workflow_dispatch:  # 可手动触发
 
 jobs:
